@@ -12,8 +12,7 @@ import _4Tipsy.TinyCloudCli.view.LoginView;
 
 
 @Command(
-  name = "login",
-  description = "Login into pass system."
+  name = "login"
 )
 public class LoginCommand implements Runnable {
 

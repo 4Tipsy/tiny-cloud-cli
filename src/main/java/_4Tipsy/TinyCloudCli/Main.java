@@ -15,6 +15,7 @@ import _4Tipsy.TinyCloudCli.commands.SendCommand;
 import _4Tipsy.TinyCloudCli.commands.GetCommand;
 import _4Tipsy.TinyCloudCli.commands.LsCommand;
 import _4Tipsy.TinyCloudCli.commands.LoginCommand;
+import _4Tipsy.TinyCloudCli.commands.LogoutCommand;
 import _4Tipsy.TinyCloudCli.commands.MkdirCommand;
 import _4Tipsy.TinyCloudCli.commands.RmdirCommand;
 import _4Tipsy.TinyCloudCli.commands.RmfileCommand;
@@ -23,7 +24,7 @@ import _4Tipsy.TinyCloudCli.commands.RmfileCommand;
 
 @Command(
   name = "tcc",
-  subcommands = {WhoCommand.class, SendCommand.class, GetCommand.class, LsCommand.class, LoginCommand.class, MkdirCommand.class, RmdirCommand.class, RmfileCommand.class},
+  subcommands = {WhoCommand.class, SendCommand.class, GetCommand.class, LsCommand.class, LoginCommand.class, LogoutCommand.class, MkdirCommand.class, RmdirCommand.class, RmfileCommand.class},
   description = "",
 
   versionProvider = _4Tipsy.TinyCloudCli.Main.VersionProvider.class,
@@ -66,7 +67,7 @@ public class Main {
 
 
     // 4 TESTING! // (btw check Config.java)
-    String[] _args = {"ls", "-p=m:/dfgh"}; args = _args;
+    String[] _args = {"logout"}; args = _args;
     
 
 
