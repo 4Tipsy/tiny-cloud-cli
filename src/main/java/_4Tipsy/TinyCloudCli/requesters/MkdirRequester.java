@@ -55,7 +55,7 @@ public class MkdirRequester {
     // building request
     OkHttpClient client = new OkHttpClient.Builder().connectTimeout( Config.getReqTimeoutInSec(), TimeUnit.SECONDS ).build();
 
-    String targetUrl = Config.getAToken() + "/api/fs-service/create-folder";
+    String targetUrl = Config.getApiRawUrl() + "/api/fs-service/create-folder";
     Request.Builder req = new Request.Builder()
                               .url(targetUrl)
                               .post(requestBody);

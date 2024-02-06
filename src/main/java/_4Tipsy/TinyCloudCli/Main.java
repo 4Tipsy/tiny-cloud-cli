@@ -67,7 +67,7 @@ public class Main {
 
 
     // 4 TESTING! // (btw check Config.java)
-    String[] _args = {"logout"}; args = _args;
+    String[] _args = {"-h"}; args = _args;
     
 
 
