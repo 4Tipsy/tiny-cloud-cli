@@ -14,6 +14,7 @@ import _4Tipsy.TinyCloudCli.requesters.RmRequester;
 import _4Tipsy.TinyCloudCli.models.RmRespModels.OkResponseModel;
 import _4Tipsy.TinyCloudCli.models.RmRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 
 
 
@@ -23,7 +24,7 @@ public class RmController {
 
 
 
-  public static AnyResSuperClass handleRm(String entityName, String fullPath, String fileField, String entityType) throws IOException {
+  public static AnyResSuperClass handleRm(String entityName, String fullPath, String fileField, String entityType) throws ConfigException, IOException {
     
     
     // make request

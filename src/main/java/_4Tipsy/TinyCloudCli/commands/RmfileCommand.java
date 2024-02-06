@@ -3,16 +3,20 @@ package _4Tipsy.TinyCloudCli.commands;
 
 
 
-import _4Tipsy.TinyCloudCli.view.RmView;
-
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Option;
 
 
+import _4Tipsy.TinyCloudCli.view.RmView;
+import _4Tipsy.TinyCloudCli.models.exceptions.BadInputException;
+
+
+
+
 @Command(
   name = "rmfile",
-  description = "Deletes file at your cloud."
+  description = "Deletes files at your cloud."
 )
 public class RmfileCommand implements Runnable {
   
@@ -22,49 +26,63 @@ public class RmfileCommand implements Runnable {
   String[] fileNames;
 
 
-  @Option(names = "--from", description = "Where to delete file.",
-  defaultValue = "/")
-  String from;
-
-  
-  @Option(names = {"-ff", "--file-field"}, description = "Could be 'mere'(by default), 'unmere' or 'reserved'.",
-  defaultValue = "mere")
-  String fileField;
+  @Option(names = {"-p"}, defaultValue = "mere:/", description = "Path at your cloud. Takes \"{fileField}:{AbsPath}\" value. {fileField} can be mere/special/temporary (m/s/t)")
+  String path_;
 
 
 
 
   @Override
   public void run() {
+    try {
+    
+      // validation!!!
+      String[] pathSplitted = path_.split(":", 2);
 
 
-    // validation
-    if ( !from.startsWith("/") ) {
-      System.out.println("[Bad input] --from accepts absolute path as an argument.");
-      System.out.println("Maybe you meant '%s'?".formatted("/"+from) );
+      // if no ":" in path_
+      if (pathSplitted.length != 2) {
+        throw new BadInputException("-p takes \"{fileField}:{absPath}\" value. {fileField} was not given.");
+      }
+
+      // if fileField is invalid
+      if ( !pathSplitted[0].matches("mere|special|temporary|m|s|t") ) {
+        throw new BadInputException("{fileField} can be only mere/special/temporary (m/s/t), but \"%s\" was given.".formatted(pathSplitted[0]) );
+      }
+      
+      // if path is not abs
+      if ( !pathSplitted[1].startsWith("/") ) {
+        throw new BadInputException("{absPath} should be absolute, but \"%s\" was given.".formatted(pathSplitted[1]) );
+      }
 
 
-    } else if ( !fileField.matches("mere|special|temporary") ) {
-      System.out.println("[Bad input] --file-field accepts only 'mere'(by default), 'special' or 'temporary'.");
 
-
-    }
-
-
-
-    else { // if ok
+      // if validation is ok, EXECUTING!!!
       for (String fileName : fileNames) {
+
+
         String fullPath;
-        if (from.equals("/")) {
+        if (pathSplitted[1].equals("/")) {
           fullPath = "/" + fileName;
         } else {
-          fullPath = from + "/" + fileName;
+          fullPath = pathSplitted[1] + "/" + fileName;
         }
-        
+
+        String fileField = pathSplitted[0];
+        if (pathSplitted[0].equals("m")) { fileField = "mere"; }
+        if (pathSplitted[0].equals("s")) { fileField = "special"; }
+        if (pathSplitted[0].equals("t")) { fileField = "temporary"; }
+
+
         RmView.viewRm(fileName, fullPath, fileField, "file");
       }
-    }
-
+      
     
+
+    // on bad user input
+    } catch (BadInputException e) {
+      System.out.println("[BadInput] %s".formatted(e.getMessage()));
+    }
   }
+
 }

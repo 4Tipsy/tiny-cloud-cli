@@ -16,6 +16,7 @@ import _4Tipsy.TinyCloudCli.requesters.SendRequester;
 import _4Tipsy.TinyCloudCli.models.SendRespModels.OkResponseModel;
 import _4Tipsy.TinyCloudCli.models.SendRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 
 
 
@@ -25,7 +26,7 @@ public class SendController {
 
 
 
-  public static AnyResSuperClass handleSend(Path localFilePath, String fullPath, String fileField) throws IOException {
+  public static AnyResSuperClass handleSend(Path localFilePath, String fullPath, String fileField) throws ConfigException, IOException {
     
     
     // make request

@@ -4,9 +4,9 @@ package _4Tipsy.TinyCloudCli.view;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import java.util.Arrays;
 import java.text.DecimalFormat;
+import java.net.ConnectException;
 
 
 // modules
@@ -16,6 +16,7 @@ import _4Tipsy.TinyCloudCli.models.LsRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
 import _4Tipsy.TinyCloudCli.models.commons.FsEntity;
 import _4Tipsy.TinyCloudCli.utils.GetTerminalSize;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 
 
 
@@ -85,9 +86,9 @@ public class LsView {
         
         // print raw json
         } else {
-          String toPrint = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(fsLayer);
+          String rawJsonRes = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(fsLayer);
           System.out.println("%s: \"%s\":\n".formatted(fileField.toUpperCase(), pathToLayer));
-          System.out.println(toPrint);
+          System.out.println(rawJsonRes);
         }
 
 
@@ -107,7 +108,20 @@ public class LsView {
 
 
 
-    } catch (IOException e) {
+
+
+
+
+
+    } catch (ConfigException e) {
+      // if invalid config
+      System.out.println("[ConfigException] %s".formatted(e.getMessage()));
+    
+    } catch (ConnectException e) {
+      // if not responding
+      System.out.println("[ConnectException] %s".formatted(e.getMessage()));
+
+    } catch (Exception e) {
       // TODO: handle exception
       e.printStackTrace();
     }
@@ -122,6 +136,8 @@ public class LsView {
 
 
 
+
+  /* utils */
 
   private static void _printLsTableRow(int termSize, FsEntity fsEntity) {
     

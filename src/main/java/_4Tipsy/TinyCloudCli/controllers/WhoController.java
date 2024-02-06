@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 // modules
-import _4Tipsy.TinyCloudCli.requesters.LsRequester;
-import _4Tipsy.TinyCloudCli.models.LsRespModels.OkResponseModel;
-import _4Tipsy.TinyCloudCli.models.LsRespModels.ErrResponseModel;
+import _4Tipsy.TinyCloudCli.requesters.WhoRequester;
+import _4Tipsy.TinyCloudCli.models.WhoRespModels.OkResponseModel;
+import _4Tipsy.TinyCloudCli.models.WhoRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
 import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 
@@ -20,15 +20,15 @@ import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 
 
 
-public class LsController {
+public class WhoController {
 
 
 
-  public static AnyResSuperClass handleLs(String pathToLayer, String fileField) throws ConfigException, IOException {
+  public static AnyResSuperClass handleWho() throws ConfigException, IOException {
     
     
     // make request
-    Response response = LsRequester.makeLsReq(pathToLayer, fileField);
+    Response response = WhoRequester.makeWhoReq(); // get req
 
 
     // parse response

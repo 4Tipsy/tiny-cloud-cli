@@ -3,10 +3,14 @@ package _4Tipsy.TinyCloudCli.commands;
 
 
 
-import _4Tipsy.TinyCloudCli.view.LsView;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+
+
+
+import _4Tipsy.TinyCloudCli.view.LsView;
+import _4Tipsy.TinyCloudCli.models.exceptions.BadInputException;
 
 
 @Command(
@@ -18,19 +22,13 @@ public class LsCommand implements Runnable {
 
 
 
-  @Option(names = {"-w", "--where"}, description = "Path to folder you want to get list of. (default='/')",
-  defaultValue = "/")
-  String where;
-
-  
-  @Option(names = {"-ff", "--file-field"}, description = "Could be 'mere'(by default), 'special' or 'temporary'.",
-  defaultValue = "mere")
-  String fileField;
+  @Option(names = {"-p"}, defaultValue = "mere:/", description = "Path at your cloud. Takes \"{fileField}:{AbsPath}\" value. {fileField} can be mere/special/temporary (m/s/t)")
+  String path_;
 
 
   @Option(names = "--json", description = "Return raw json output (only if success)",
   defaultValue = "false")
-  Boolean isJsonOutput;
+  boolean isJsonOutput;
 
 
 
@@ -38,25 +36,45 @@ public class LsCommand implements Runnable {
   @Override
   public void run() {
 
-    // validation
-    if ( !where.startsWith("/") ) {
-      System.out.println("[Bad input] --where accepts absolute path as an argument.");
-      System.out.println("Maybe you meant '%s'?".formatted("/"+where) );
+    try {
+    
+      // validation!!!
+      String[] pathSplitted = path_.split(":", 2);
 
 
-    } else if ( !fileField.matches("mere|special|temporary") ) {
-      System.out.println("[Bad input] --file-field accepts only 'mere'(by default), 'special' or 'temporary'.");
+      // if no ":" in path_
+      if (pathSplitted.length != 2) {
+        throw new BadInputException("-p takes \"{fileField}:{absPath}\" value. {fileField} was not given.");
+      }
+
+      // if fileField is invalid
+      if ( !pathSplitted[0].matches("mere|special|temporary|m|s|t") ) {
+        throw new BadInputException("{fileField} can be only mere/special/temporary (m/s/t), but \"%s\" was given.".formatted(pathSplitted[0]) );
+      }
+      
+      // if path is not abs
+      if ( !pathSplitted[1].startsWith("/") ) {
+        throw new BadInputException("{absPath} should be absolute, but \"%s\" was given.".formatted(pathSplitted[1]) );
+      }
 
 
-    }
+
+      // if validation is ok, EXECUTING!!!
+
+      String fileField = pathSplitted[0];
+      if (pathSplitted[0].equals("m")) { fileField = "mere"; }
+      if (pathSplitted[0].equals("s")) { fileField = "special"; }
+      if (pathSplitted[0].equals("t")) { fileField = "temporary"; }
 
 
+      LsView.viewLs(pathSplitted[1], fileField, isJsonOutput);
+      
+      
+    
 
-    // if ok
-    else {
-
-      LsView.viewLs(where, fileField, isJsonOutput);
-
+    // on bad user input
+    } catch (BadInputException e) {
+      System.out.println("[BadInput] %s".formatted(e.getMessage()));
     }
   }
 }

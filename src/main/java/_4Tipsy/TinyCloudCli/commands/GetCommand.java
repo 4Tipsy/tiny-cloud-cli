@@ -9,7 +9,7 @@ import picocli.CommandLine.Option;
 
 
 import _4Tipsy.TinyCloudCli.view.GetView;
-
+import _4Tipsy.TinyCloudCli.models.exceptions.BadInputException;
 
 
 
@@ -24,52 +24,67 @@ public class GetCommand implements Runnable {
 
 
 
-  @Parameters(arity = "1..6", paramLabel = "<fileName>")
+  @Parameters(paramLabel = "<fileName> (1 or more)")
   String[] fileNames;
 
 
-  @Option(names = {"-ff", "--file-field"}, defaultValue = "mere", description = "Could be 'mere'(by default), 'special' or 'temporary'.")
-  String fileField;
+  @Option(names = {"-p"}, defaultValue = "mere:/", description = "Path at your cloud. Takes \"{fileField}:{AbsPath}\" value. {fileField} can be mere/special/temporary (m/s/t)")
+  String path_;
 
-  @Option(names = {"--from"}, description = "Path at your cloud", defaultValue = "/")
-  String from;
 
 
 
 
   @Override
   public void run() {
+    try {
     
-    // validation
-    if ( !from.startsWith("/") ) {
-      System.out.println("[Bad input] --from accepts absolute path as an argument.");
-      System.out.println("Maybe you meant '%s'?".formatted("/"+from) );
+      // validation!!!
+      String[] pathSplitted = path_.split(":", 2);
 
 
-    } else if ( !fileField.matches("mere|special|temporary") ) {
-      System.out.println("[Bad input] --file-field accepts only 'mere'(by default), 'special' or 'temporary'.");
+      // if no ":" in path_
+      if (pathSplitted.length != 2) {
+        throw new BadInputException("-p takes \"{fileField}:{absPath}\" value. {fileField} was not given.");
+      }
+
+      // if fileField is invalid
+      if ( !pathSplitted[0].matches("mere|special|temporary|m|s|t") ) {
+        throw new BadInputException("{fileField} can be only mere/special/temporary (m/s/t), but \"%s\" was given.".formatted(pathSplitted[0]) );
+      }
+      
+      // if path is not abs
+      if ( !pathSplitted[1].startsWith("/") ) {
+        throw new BadInputException("{absPath} should be absolute, but \"%s\" was given.".formatted(pathSplitted[1]) );
+      }
 
 
-    }
-    
 
-    else { // if ok
-
+      // if validation is ok, EXECUTING!!!
       for (String fileName : fileNames) {
 
 
-
         String fullPath;
-        if (from.equals("/")) {
+        if (pathSplitted[1].equals("/")) {
           fullPath = "/" + fileName;
         } else {
-          fullPath = from + "/" + fileName;
+          fullPath = pathSplitted[1] + "/" + fileName;
         }
-        
+
+        String fileField = pathSplitted[0];
+        if (pathSplitted[0].equals("m")) { fileField = "mere"; }
+        if (pathSplitted[0].equals("s")) { fileField = "special"; }
+        if (pathSplitted[0].equals("t")) { fileField = "temporary"; }
+
+
         GetView.viewGet(fileName, fullPath, fileField);
-
-
       }
+      
+    
+
+    // on bad user input
+    } catch (BadInputException e) {
+      System.out.println("[BadInput] %s".formatted(e.getMessage()));
     }
   }
 

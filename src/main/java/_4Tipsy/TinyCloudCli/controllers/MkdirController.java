@@ -14,6 +14,7 @@ import _4Tipsy.TinyCloudCli.requesters.MkdirRequester;
 import _4Tipsy.TinyCloudCli.models.MkdirRespModels.OkResponseModel;
 import _4Tipsy.TinyCloudCli.models.MkdirRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 
 
 
@@ -23,7 +24,7 @@ public class MkdirController {
 
 
 
-  public static AnyResSuperClass handleMkdir(String folderName, String fullPath, String fileField) throws IOException {
+  public static AnyResSuperClass handleMkdir(String folderName, String fullPath, String fileField) throws ConfigException, IOException {
     
     
     // make request

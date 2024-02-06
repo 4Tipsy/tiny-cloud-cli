@@ -2,6 +2,8 @@
 package _4Tipsy.TinyCloudCli.requesters;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.RequestBody;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -15,7 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 // modules
 import _4Tipsy.TinyCloudCli.Config;
-
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 
 
 
@@ -28,7 +30,7 @@ public class LoginRequester {
 
 
 
-  public static Response makeLoginReq(String userEmail, String password) throws IOException {
+  public static Response makeLoginReq(String userEmail, String password) throws ConfigException, IOException {
 
 
 
@@ -49,7 +51,7 @@ public class LoginRequester {
 
 
     // building request
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient.Builder().connectTimeout( Config.getReqTimeoutInSec(), TimeUnit.SECONDS ).build();
 
     String targetUrl = Config.getApiRawUrl() + "/api/user-service/login";
     Request.Builder req = new Request.Builder()

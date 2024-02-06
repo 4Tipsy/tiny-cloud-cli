@@ -4,6 +4,7 @@ package _4Tipsy.TinyCloudCli.view;
 
 
 import java.nio.file.Path;
+import java.net.ConnectException;
 
 
 
@@ -13,6 +14,10 @@ import _4Tipsy.TinyCloudCli.controllers.SendController;
 import _4Tipsy.TinyCloudCli.models.SendRespModels.OkResponseModel;
 import _4Tipsy.TinyCloudCli.models.SendRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
+
+
+
 
 
 
@@ -46,6 +51,16 @@ public class SendView {
 
 
 
+
+
+
+    } catch (ConfigException e) {
+      // if invalid config
+      System.out.println("[ConfigException] %s".formatted(e.getMessage()));
+    
+    } catch (ConnectException e) {
+      // if not responding
+      System.out.println("[ConnectException] %s".formatted(e.getMessage()));
 
     } catch (Exception e) {
       // TODO: handle exception

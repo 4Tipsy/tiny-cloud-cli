@@ -3,12 +3,13 @@ package _4Tipsy.TinyCloudCli.requesters;
 
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.RequestBody;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,6 +18,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 // modules
 import _4Tipsy.TinyCloudCli.Config;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
+
 
 
 
@@ -25,7 +28,7 @@ import _4Tipsy.TinyCloudCli.Config;
 public class GetRequester {
   
 
-  public static Response makeGetReq(String fileName, String fullPath, String fileField) throws IOException {
+  public static Response makeGetReq(String fileName, String fullPath, String fileField) throws ConfigException, IOException {
 
 
 
@@ -51,7 +54,7 @@ public class GetRequester {
 
 
     // building request
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient.Builder().connectTimeout( Config.getReqTimeoutInSec(), TimeUnit.SECONDS ).build();
 
     String targetUrl = Config.getApiRawUrl() + "/api/download-service/download-file";
     Request.Builder req = new Request.Builder()

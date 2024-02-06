@@ -3,6 +3,7 @@ package _4Tipsy.TinyCloudCli.view;
 
 
 import java.io.File;
+import java.net.ConnectException;
 
 
 // modules
@@ -10,6 +11,9 @@ import _4Tipsy.TinyCloudCli.controllers.GetController;
 import _4Tipsy.TinyCloudCli.models.GetRespModels.OkResponseModel;
 import _4Tipsy.TinyCloudCli.models.GetRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
+
+
 
 
 
@@ -45,6 +49,13 @@ public class GetView {
 
 
 
+    } catch (ConfigException e) {
+      // if invalid config
+      System.out.println("[ConfigException] %s".formatted(e.getMessage()));
+    
+    } catch (ConnectException e) {
+      // if not responding
+      System.out.println("[ConnectException] %s".formatted(e.getMessage()));
 
     } catch (Exception e) {
       // TODO: handle exception

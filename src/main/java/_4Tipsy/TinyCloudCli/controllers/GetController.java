@@ -18,6 +18,9 @@ import _4Tipsy.TinyCloudCli.models.GetRespModels.OkResponseModel;
 import _4Tipsy.TinyCloudCli.models.GetRespModels.ErrResponseModel;
 import _4Tipsy.TinyCloudCli.models.commons.AnyResSuperClass;
 import _4Tipsy.TinyCloudCli.utils.NetProgressBar;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
+
+
 
 
 
@@ -26,7 +29,7 @@ public class GetController {
 
 
 
-  public static AnyResSuperClass handleGet(String fileName, String fullPath, String fileField) throws IOException {
+  public static AnyResSuperClass handleGet(String fileName, String fullPath, String fileField) throws ConfigException, IOException {
     
     
     // make request

@@ -3,6 +3,7 @@ package _4Tipsy.TinyCloudCli.requesters;
 
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -15,7 +16,6 @@ import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
 import okhttp3.MultipartBody;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 // modules
 import _4Tipsy.TinyCloudCli.Config;
+import _4Tipsy.TinyCloudCli.models.exceptions.ConfigException;
 import _4Tipsy.TinyCloudCli.utils.NetProgressBar;
 
 
@@ -33,7 +34,7 @@ import _4Tipsy.TinyCloudCli.utils.NetProgressBar;
 public class SendRequester {
   
 
-  public static Response makeSendReq(Path localFilePath, String fullPath, String fileField) throws IOException {
+  public static Response makeSendReq(Path localFilePath, String fullPath, String fileField) throws ConfigException, IOException {
 
 
 
@@ -128,7 +129,7 @@ public class SendRequester {
 
 
     // building request
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient.Builder().connectTimeout( Config.getReqTimeoutInSec(), TimeUnit.SECONDS ).build();
 
     String targetUrl = Config.getApiRawUrl() + "/api/fs-service/upload-file";
     Request.Builder req = new Request.Builder()
