@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
+
 public class UserInResp {
   
   
@@ -28,8 +29,8 @@ public class UserInResp {
 
 
   // not now
-  @JsonIgnore
-  private Object shared;
+  @JsonProperty("shared")
+  @JsonIgnore private Object shared;
   
 
 

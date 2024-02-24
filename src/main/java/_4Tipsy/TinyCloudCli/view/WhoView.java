@@ -57,7 +57,6 @@ public class WhoView {
                                                                   * 100
                                                                   );
 
-          System.out.println("Current logged-in user:\n");
           System.out.println("Current user: \"%s\" (%s) [%s]".formatted(user.getUserName(), user.getUserEmail(),
           user.getIsVerified() ? "verified" : "unverified" ));
           System.out.println("Used space: %s/%s MB (%s)".formatted(usedSpaceFormatted, availableSpaceFormatted, availableSpaceInPerc+"%"));

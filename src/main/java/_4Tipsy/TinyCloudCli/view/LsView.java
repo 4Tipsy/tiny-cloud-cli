@@ -154,12 +154,12 @@ public class LsView {
     }
     String sharedKey = "";
     if (fsEntity.getIsShared()) {
-      sharedKey = " [shared]";
+      sharedKey = "(shared)" + " ";
     }
 
     int middleGapLength = termSize - name.length() - size.length() - 3 - sharedKey.length();
 
-    String toPrint =  name + " " + "_".repeat(middleGapLength) + " " + size + sharedKey;
+    String toPrint =  name + " " + "_".repeat(middleGapLength) + " " + sharedKey + size;
 
 
     System.out.println(toPrint);
