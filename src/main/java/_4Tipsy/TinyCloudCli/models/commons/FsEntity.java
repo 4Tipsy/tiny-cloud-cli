@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class FsEntity {
   
   private String name;
+  @JsonProperty("shared")
+  private boolean isShared;
   @JsonProperty("abs_path")
   private String absPath;
   @JsonProperty("base_type")
@@ -26,6 +28,9 @@ public class FsEntity {
 
   public String getName() {
     return name;
+  }
+  public boolean getIsShared() {
+    return isShared;
   }
   public String getAbsPath() {
     return absPath;

@@ -152,10 +152,14 @@ public class LsView {
       double _size = fsEntity.getSizeInMb();
       size = new DecimalFormat("#.###").format(_size) + " MB";
     }
+    String sharedKey = "";
+    if (fsEntity.getIsShared()) {
+      sharedKey = " [shared]";
+    }
 
-    int middleGapLength = termSize - name.length() - size.length() - 3;
+    int middleGapLength = termSize - name.length() - size.length() - 3 - sharedKey.length();
 
-    String toPrint =  name + " " + "_".repeat(middleGapLength) + " " + size;
+    String toPrint =  name + " " + "_".repeat(middleGapLength) + " " + size + sharedKey;
 
 
     System.out.println(toPrint);

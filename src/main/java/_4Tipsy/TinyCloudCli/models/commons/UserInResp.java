@@ -4,7 +4,7 @@ package _4Tipsy.TinyCloudCli.models.commons;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -25,6 +25,12 @@ public class UserInResp {
   private double usedSpace;
   @JsonProperty("available_space")
   private double availableSpace;
+
+
+  // not now
+  @JsonIgnore
+  private Object shared;
+  
 
 
 

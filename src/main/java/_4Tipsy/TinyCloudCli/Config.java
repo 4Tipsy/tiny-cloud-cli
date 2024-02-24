@@ -27,8 +27,11 @@ public class Config {
     String pathToConfig = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent() + File.separator + "config.json"; // path to this .jar dir
 
     
-    // cuz if run via mvn pathToConfig=".../target/classes/config.json"
-    pathToConfig = "config.json"; // 4 TESTING!!!
+    
+    if (Main.IS_TESTED_FROM_IDE) {
+      // 4 TESTING!!! //
+      pathToConfig = "config.json"; // cuz if run via mvn directly, pathToConfig=".../target/classes/config.json"
+    }
 
 
     return pathToConfig;

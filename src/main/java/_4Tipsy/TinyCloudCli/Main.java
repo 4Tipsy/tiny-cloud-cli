@@ -37,7 +37,8 @@ public class Main {
 
 
   // some constants
-  public static final String CLI_VERSION = "0.1.0";
+  public static final String CLI_VERSION = "0.2.0";
+  public static final boolean IS_TESTED_FROM_IDE = false; // change to false before compile .jar file!!!
 
 
   
@@ -66,8 +67,10 @@ public class Main {
   public static void main(String[] args) {
 
 
-    // 4 TESTING! // (btw check Config.java)
-    String[] _args = {"-h"}; args = _args;
+    // 4 TESTING!
+    if (IS_TESTED_FROM_IDE) {
+      String[] _args = {"-h"}; args = _args;
+    }
     
 
 

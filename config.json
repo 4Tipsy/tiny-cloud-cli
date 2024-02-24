@@ -2,5 +2,5 @@
   "__comment__" : "Do not change anything by hands if u are not sure what is going on ;3",
   "apiRawUrl" : "http://tiny-cloud.xyz",
   "aToken" : null,
-  "reqTimeoutInSec" : 10
+  "reqTimeoutInSec" : 30
 }
