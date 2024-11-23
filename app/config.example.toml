@@ -1,0 +1,16 @@
+
+[main]
+apiRawUrl = "http://api.tiny-cloud.xyz"
+requestTimeout = 3 # in sec
+defaultChunkSize = 50_000 # in bytes
+maxSizeToBePreviewed = 200_000_000 # in bytes
+
+[defaultTermSize]
+width = 80
+height = 50
+
+[commandAliases]
+# shortCut = ["some", "command"]
+
+[experimental]
+rememberLocationInX = true
